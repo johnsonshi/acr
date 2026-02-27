@@ -18,7 +18,28 @@ Azure Container Registry regional endpoints allow you to target specific geo-rep
 
 When you use a geo-replicated registry's global endpoint (`myregistry.azurecr.io`), Azure automatically routes requests to the most suitable replica based on network performance. While this works well for most scenarios, it doesn't provide explicit control over which replica handles your requests.
 
-Regional endpoints solve this by providing dedicated login server URLs for each geo-replica:
+Regional endpoints solve this by providing dedicated login server URLs for each geo-replica.
+
+> [!IMPORTANT]
+> **Clarification: `--regional-endpoints` vs `--region-endpoint-enabled`**
+>
+> These two settings have similar names but serve different purposes:
+>
+> | Setting | Scope | Purpose |
+> |---------|-------|---------|
+> | `--regional-endpoints` | Registry-level | Enables dedicated regional endpoint URLs (`myregistry.<region>.geo.azurecr.io`) for all geo-replicas. This is the feature documented on this page. |
+> | `--region-endpoint-enabled` | Per-geo-replica | Controls whether the **global endpoint** (`myregistry.azurecr.io`) routes traffic to a specific geo-replica. Set to `false` to temporarily exclude a geo-replica from global endpoint routing (for maintenance or troubleshooting). Data continues syncing regardless of this setting. See [Geo-replication in Azure Container Registry](https://learn.microsoft.com/azure/container-registry/container-registry-geo-replication). |
+>
+> **These settings are independent.** Setting `--region-endpoint-enabled false` on a geo-replica:
+> - Excludes that geo-replica from **global endpoint** routing only.
+> - Does **not** disable the geo-replica's **regional endpoint** URL. If `--regional-endpoints` is enabled at the registry level, clients can still directly access that geo-replica via the regional endpoint URL.
+> - Does **not** stop data syncing to that geo-replica.
+>
+> **In short:**
+> - Enable `--regional-endpoints` at the registry level to **enable dedicated regional URLs** (for all geo-replicas) for direct access to specific geo-replicas.
+> - Configure `--region-endpoint-enabled` (on a specific geo-replica) to **control global endpoint routing** to a specific geo-replica.
+
+Regional endpoints provide dedicated login server URLs for each geo-replica:
 
 ```
 myregistry.<region-name>.geo.azurecr.io
