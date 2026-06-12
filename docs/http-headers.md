@@ -68,6 +68,7 @@ The values we ask ACR partners to use when populating the `X-Meta-Source-Client`
 | ACR Connected Registry         | `azure/acr/connected-registry/instance-1` |
 | Microsoft Defender for Cloud - ACR scanner that pulls images for vulnerability assessment | `azure/mdc/scanner-svc-image-puller`      |
 | Microsoft Defender for Cloud - ACR scanner for registry discovery and metadata            | `azure/mdc/scanner-svc-image-discovery`   |
+| Microsoft Defender for Cloud - ACR scanner for container image enrichment                 | `azure/mdc/scanner-svc-image-enrichment`  |
 | Microsoft Defender for Cloud - Azure DevOps CLI scanner that pulls images                 | `azure/mdc/scanner-ado-cli-image-puller`  |
 
 ## How ACR uses this header
